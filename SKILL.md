@@ -66,6 +66,8 @@ python scripts/run_model.py verify --run-dir runs/<run_id>
 
 ## Model Boundary
 
+This repository is an independent, non-official TRA reproduction and generic factor-panel adaptation.
+
 TRA uses several prediction heads, a router conditioned on both the feature
 representation and causally available historical head errors, and a Sinkhorn
 optimal-transport assignment loss. Read
