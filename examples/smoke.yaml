@@ -1,0 +1,34 @@
+data:
+  panel_path: generated/synthetic_panel.csv
+  date_column: date
+  ticker_column: ticker
+  label_column: label
+  feature_columns: [factor_trend, factor_reversal, factor_quality]
+splits:
+  train: [20200102, 20200210]
+  valid: [20200211, 20200226]
+  test: [20200227, 20200317]
+preprocessing:
+  lookback: 5
+  standardize_features: true
+  standardize_labels: true
+model:
+  hidden_size: 16
+  experts: 3
+  router_hidden: 6
+  history_length: 3
+  dropout: 0.0
+  temperature: 1.0
+  hard_inference: true
+  historical_cost_weight: 0.1
+  transport_temperature: 0.2
+  transport_weight: 0.1
+  transport_decay: 0.99
+training:
+  epochs: 3
+  learning_rate: 0.003
+  weight_decay: 0.0
+  seed: 42
+  device: cpu
+  label_availability_delay: 2
+output_root: ../outputs/smoke

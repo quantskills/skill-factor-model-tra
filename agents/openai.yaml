@@ -1,3 +1,6 @@
-name: skill-template
+name: factor-model-tra
 entrypoint: SKILL.md
 canonical_root: SKILL.md
+display_name: TRA Alpha Model
+short_description: Train a standalone temporal-routing factor model and export stock signals.
+default_prompt: Train TRA on a supplied multi-factor panel, select by validation Pearson IC, and export date/ticker/signal predictions.

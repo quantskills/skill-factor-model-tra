@@ -1,4 +1,4 @@
-name: Validate template contract
+name: Validate skill
 
 on: [push, pull_request]
 
@@ -7,32 +7,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: skill-template
       - uses: actions/checkout@v4
         with:
           repository: quantskills/registry
-          path: contract-registry
+          path: registry
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install Registry validation dependencies
+      - name: Install package and registry validation dependencies
         run: |
-          if [ -f contract-registry/requirements-dev.txt ]; then
-            python -m pip install -r contract-registry/requirements-dev.txt
-          else
-            python -m pip install PyYAML
-          fi
-      - name: Validate catalog contract
-        run: |
-          validator=contract-registry/scripts/validate_skill.py
-          if python "$validator" --help | grep -q -- "--contract-mode"; then
-            python "$validator" skill-template --contract-mode enforce
-          else
-            python skill-template/scripts/validate-registry-compat.py "$validator" skill-template
-          fi
-      - name: Validate optional qsh-form
-        run: node skill-template/scripts/validate-qsh-form.mjs skill-template/SKILL.md
+          python -m pip install -e . pytest
+          python -m pip install -r registry/requirements-dev.txt
+      - name: Validate QuantSkills registry contract
+        run: python registry/scripts/validate_skill.py . --contract-mode enforce
+      - name: Validate qsh form
+        run: node scripts/validate-qsh-form.mjs SKILL.md
+      - name: Run synthetic smoke test
+        run: python scripts/run_smoke.py
+      - name: Run unit tests
+        run: python -m pytest -q

@@ -1,24 +1,16 @@
-# QuantSkills Skill Template
+# Temporal Routing Adaptor Alpha Model
 
-简体中文 | [English](README.en.md)
+一个可独立安装的 TRA 多因子合成模型。它使用多预测头、历史误差记忆和最优传输路由来训练股票横截面预测信号，并输出标准 `date,ticker,signal` 文件。
 
-这是 `skill-template` 仓库的规范模板，由 `abgyjaguo` 维护，用于创建符合 catalog-contract v2 的 QuantSkills skill 项目。根目录 `SKILL.md` 描述本模板仓库；可复制的因子评估项目声明仅在 `references/declaration-example.yml`。
+```bash
+python -m pip install -e .
+python examples/make_synthetic_panel.py --output examples/generated/synthetic_panel.csv
+python scripts/run_model.py check --config examples/smoke.yaml
+python scripts/run_model.py train --config examples/smoke.yaml
+```
 
-| 运行时 | 入口或薄适配 |
-| --- | --- |
-| Codex | `SKILL.md` |
-| Claude Code | `SKILL.md` |
-| Cursor | `agents/cursor-rule.mdc` → `SKILL.md` |
-| Hermes | `agents/portable-loader.md` → `SKILL.md` |
-| OpenClaw | `agents/openai.yaml` → `SKILL.md` |
+训练完成后，使用 `predict --run-dir <run-dir> --split test` 导出测试信号。详细接口见 `references/`。
 
-## 编写边界
+## 研究使用说明
 
-- 不提交密钥、令牌、私人数据或机密材料。
-- 改编上游策略、论文、数据或代码时，注明来源并保留许可证要求。
-- 定量项目须披露数据来源、假设、参数、已知限制、风险边界及仅供研究或教育使用的范围；不得承诺收益，也不构成投资建议。
-- `qsh-form` 是可选界面增强，和数据接口兼容性相互独立。
-
-## 许可证
-
-`GPL-3.0-only`。见 [LICENSE](LICENSE)。
+**数据来源**：运行时由用户提供多因子面板和标签；仓库只提供合成样例。**假设与参数**：时间切分、标签、回看期、模型维度与训练参数均由 YAML 明确配置。**限制与风险边界**：输出是横截面排序信号，不包含组合构建、交易执行或收益保证。该项目仅用于研究与教育，不构成任何投资建议。

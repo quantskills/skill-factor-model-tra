@@ -1,12 +1,9 @@
 # Source Boundary
 
-Allowed sources:
+The repository contains only portable source code, synthetic examples, and
+public paper references. Users provide their own factor panels and labels at
+runtime.
 
-- Public posts and pages
-- Public filings, transcripts, papers
-- User-provided exports or notes
-
-Not allowed unless the user has rights and explicitly provides them:
-
-- Paywalled or member-only content
-- Private messages or notes
+Do not commit user data, market data, checkpoints, run directories, credentials,
+or absolute local paths. Preserve attribution and applicable licenses when
+adapting public research or reference implementations.

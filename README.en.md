@@ -1,19 +1,16 @@
-# QuantSkills Skill Template
+# Temporal Routing Adaptor Alpha Model
 
-[简体中文](README.md) | English
+A standalone Temporal Routing Adaptor model for synthesising multi-factor
+panels into cross-sectional stock signals. It exports portable
+`date,ticker,signal` files without a dependency on a specific backtester.
 
-This is the canonical `skill-template` repository, maintained by `abgyjaguo`, for creating catalog-contract v2 QuantSkills skills. The root `SKILL.md` describes this template repository; the copy-ready factor-evaluation declaration lives only in `references/declaration-example.yml`.
+```bash
+python -m pip install -e .
+python examples/make_synthetic_panel.py --output examples/generated/synthetic_panel.csv
+python scripts/run_model.py check --config examples/smoke.yaml
+python scripts/run_model.py train --config examples/smoke.yaml
+```
 
-| Runtime | Entry point or thin adapter |
-| --- | --- |
-| Codex | `SKILL.md` |
-| Claude Code | `SKILL.md` |
-| Cursor | `agents/cursor-rule.mdc` → `SKILL.md` |
-| Hermes | `agents/portable-loader.md` → `SKILL.md` |
-| OpenClaw | `agents/openai.yaml` → `SKILL.md` |
+## Research Use
 
-Do not include secrets or private data. Cite upstream sources and preserve licenses. Quantitative projects must disclose data sources, assumptions, parameters, limitations, risk boundaries, and research-only scope; they must not promise returns or constitute investment advice. `qsh-form` is optional and independent from data-interface compatibility.
-
-## License
-
-`GPL-3.0-only`. See [LICENSE](LICENSE).
+**Data source:** users supply factor panels and labels at runtime; the repository contains only synthetic examples. **Assumptions and parameters:** splits, labels, lookback, model dimensions, and training settings are explicit YAML parameters. **Limitations and risk boundary:** output is a cross-sectional ranking signal, not portfolio construction, execution, or a return guarantee. This project is for research and education and does not constitute investment advice.
