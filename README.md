@@ -1,5 +1,10 @@
 # Temporal Routing Adaptor Alpha Model
 
+## 网络结构
+
+![TRA 网络结构图](assets/tra-architecture.svg)
+
+
 `skill-factor-model-tra` 是一个独立、可安装的 TRA 多因子合成模型。它通过多预测头、因果历史误差记忆和最优传输路由，在用户提供的因子面板上生成股票横截面预测信号。
 
 ## 功能

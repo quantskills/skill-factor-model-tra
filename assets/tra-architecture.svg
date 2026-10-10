@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="800" viewBox="0 0 1500 800" role="img" aria-labelledby="title desc">
+  <title id="title">TRA 因子合成网络结构</title>
+  <desc id="desc">历史因子序列经 GRU 编码。预测头和因果可用的误差记忆共同输入路由器；路由器合成横截面信号，延迟标签更新误差记忆，Sinkhorn 最优传输在训练期监督路由分配。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#44546a"/></marker>
+    <marker id="blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2f6f9f"/></marker>
+    <marker id="orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c86b20"/></marker>
+    <style>
+      .title { font: 700 27px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #16243a; }
+      .subtitle { font: 400 15px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #536579; }
+      .label { font: 700 17px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #1e3148; text-anchor: middle; }
+      .small { font: 400 14px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #41546a; text-anchor: middle; }
+      .tiny { font: 400 12px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #536579; text-anchor: middle; }
+      .section { font: 700 14px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #ffffff; }
+      .box { stroke-width: 2; rx: 12; ry: 12; }
+      .arrow { stroke: #44546a; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .bluearrow { stroke: #2f6f9f; stroke-width: 2.5; fill: none; marker-end: url(#blue); }
+      .orangearrow { stroke: #c86b20; stroke-width: 2.5; fill: none; marker-end: url(#orange); }
+      .dashed { stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+  <rect width="1500" height="800" fill="#f8fafc"/>
+  <text x="58" y="58" class="title">TRA：带最优传输的时序路由适配器</text>
+  <text x="58" y="84" class="subtitle">独立多因子面板合成 · 路由使用特征表示与因果可用的预测误差</text>
+
+  <rect x="48" y="126" width="1404" height="344" rx="16" fill="#f1f6fb" stroke="#b8cce0" stroke-width="1.5"/>
+  <rect x="48" y="126" width="208" height="36" rx="16" fill="#2f6f9f"/>
+  <text x="70" y="150" class="section">预测与路由路径</text>
+
+  <rect x="82" y="254" width="185" height="104" class="box" fill="#e8f2fb" stroke="#75a9d2"/>
+  <text x="174" y="288" class="label">历史因子</text>
+  <text x="174" y="311" class="label">序列 X</text>
+  <text x="174" y="336" class="small">股票 × 回看期 × 因子</text>
+
+  <rect x="342" y="254" width="184" height="104" class="box" fill="#dcedfa" stroke="#5492c2"/>
+  <text x="434" y="289" class="label">GRU 主干网络</text>
+  <text x="434" y="317" class="small">股票表示 h</text>
+  <path d="M267 306 H342" class="bluearrow"/>
+
+  <rect x="608" y="203" width="226" height="120" class="box" fill="#eeeafa" stroke="#9178c6"/>
+  <text x="721" y="240" class="label">K 个预测头</text>
+  <text x="721" y="268" class="small">p₁(h), p₂(h), …, pK(h)</text>
+  <text x="721" y="292" class="tiny">候选模式预测</text>
+  <path d="M526 281 C557 270 575 263 608 263" class="bluearrow"/>
+
+  <rect x="608" y="355" width="226" height="80" class="box" fill="#e4f4ea" stroke="#5aa275"/>
+  <text x="721" y="387" class="label">因果误差记忆</text>
+  <text x="721" y="412" class="small">历史 K 头误差</text>
+
+  <rect x="921" y="245" width="218" height="130" class="box" fill="#f6edf9" stroke="#a585c6"/>
+  <text x="1030" y="279" class="label">时序路由器</text>
+  <text x="1030" y="306" class="small">表示 + 误差 GRU</text>
+  <text x="1030" y="333" class="tiny">训练：Gumbel-softmax · 推理：argmax</text>
+  <path d="M526 322 C674 343 756 368 921 328" class="bluearrow"/>
+  <path d="M834 395 C871 385 892 360 921 340" class="arrow"/>
+
+  <rect x="1218" y="254" width="190" height="104" class="box" fill="#e4f4ea" stroke="#5aa275"/>
+  <text x="1313" y="288" class="label">加权预测</text>
+  <text x="1313" y="316" class="small">ŷ = Σk routerk · pk</text>
+  <text x="1313" y="340" class="tiny">横截面信号</text>
+  <path d="M834 264 C900 235 1090 238 1218 287" class="arrow"/>
+  <path d="M1139 310 H1218" class="arrow"/>
+
+  <rect x="48" y="514" width="1404" height="228" rx="16" fill="#fff8ed" stroke="#e6bf83" stroke-width="1.5" stroke-dasharray="8 6"/>
+  <rect x="48" y="514" width="260" height="36" rx="16" fill="#c86b20"/>
+  <text x="70" y="538" class="section">训练监督与因果反馈</text>
+
+  <rect x="127" y="601" width="190" height="90" class="box" fill="#fff0dd" stroke="#d58a40"/>
+  <text x="222" y="633" class="label">当期标签 y<tspan baseline-shift="sub">t</tspan></text>
+  <text x="222" y="659" class="small">用于训练损失</text>
+
+  <rect x="407" y="583" width="230" height="125" class="box" fill="#fff0dd" stroke="#d58a40"/>
+  <text x="522" y="616" class="label">预测头成本与 OT 目标</text>
+  <text x="522" y="643" class="small">(pk − y)<tspan baseline-shift="super">2</tspan> + history cost</text>
+  <text x="522" y="668" class="tiny">Sinkhorn 均衡分配</text>
+  <path d="M317 646 H407" class="orangearrow"/>
+  <path d="M721 323 C678 443 634 519 579 583" class="arrow dashed"/>
+
+  <rect x="730" y="602" width="226" height="88" class="box" fill="#fff0dd" stroke="#d58a40"/>
+  <text x="843" y="633" class="label">训练目标</text>
+  <text x="843" y="659" class="small">SmoothL1 信号损失 + OT 路由损失</text>
+  <path d="M637 645 H730" class="orangearrow"/>
+  <path d="M1313 358 C1190 480 1007 578 936 602" class="arrow dashed"/>
+
+  <rect x="1065" y="583" width="268" height="125" class="box" fill="#fff0dd" stroke="#d58a40"/>
+  <text x="1199" y="615" class="label">在 t + delay 延迟反馈</text>
+  <text x="1199" y="642" class="small">记录已实现的 K 头误差</text>
+  <text x="1199" y="668" class="tiny">仅此时更新误差记忆</text>
+  <path d="M317 666 C598 752 897 742 1065 665" class="orangearrow dashed"/>
+  <path d="M1065 610 C962 532 826 472 766 435" class="orangearrow dashed"/>
+
+  <rect x="64" y="766" width="16" height="16" rx="3" fill="#e8f2fb" stroke="#75a9d2"/><text x="90" y="779" class="tiny" text-anchor="start">历史因子特征</text>
+  <rect x="300" y="766" width="16" height="16" rx="3" fill="#eeeafa" stroke="#9178c6"/><text x="326" y="779" class="tiny" text-anchor="start">多头预测与路由</text>
+  <rect x="606" y="766" width="16" height="16" rx="3" fill="#e4f4ea" stroke="#5aa275"/><text x="632" y="779" class="tiny" text-anchor="start">因果可用记忆 / 输出</text>
+  <rect x="933" y="766" width="16" height="16" rx="3" fill="#fff0dd" stroke="#d58a40"/><text x="959" y="779" class="tiny" text-anchor="start">仅训练期监督与延迟标签</text>
+</svg>

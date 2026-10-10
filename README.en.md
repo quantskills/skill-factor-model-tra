@@ -1,5 +1,10 @@
 # Temporal Routing Adaptor Alpha Model
 
+## Architecture
+
+![skill-factor-model-tra architecture](assets/tra-architecture.svg)
+
+
 `skill-factor-model-tra` is a standalone, installable TRA model for synthesising a user-supplied multi-factor panel into cross-sectional stock signals. It combines multiple prediction heads, causal error memory, and optimal-transport routing.
 
 ## Capabilities
