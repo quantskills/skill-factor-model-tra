@@ -55,6 +55,7 @@ other skills, or a bundled backtest engine.
    CSV or Parquet panel with explicit `date`, `ticker`, feature, and label columns.
 2. Start from `examples/smoke.yaml` and configure chronological splits, feature
    columns, model parameters, and the label availability delay.
+   Read [the configuration reference](references/configuration.en.md) before changing model or training parameters.
 3. Run validation, training, signal export, and artifact verification:
 
 ```bash

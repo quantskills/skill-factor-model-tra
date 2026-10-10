@@ -7,6 +7,16 @@
 
 `skill-factor-model-tra` is a standalone, installable TRA model for synthesising a user-supplied multi-factor panel into cross-sectional stock signals. It combines multiple prediction heads, causal error memory, and optimal-transport routing.
 
+## Method and paper reference
+
+This project is informed by:
+
+> Hengxu Lin, Dong Zhou, Weiqing Liu, Jiang Bian. **Learning Multiple Stock Trading Patterns with Temporal Routing Adaptor and Optimal Transport.** KDD 2021. DOI: [10.1145/3447548.3467358](https://doi.org/10.1145/3447548.3467358).
+
+This repository is an **unofficial independent reproduction and generic factor-panel adaptation**, not an implementation released by the paper authors or Microsoft Qlib. It retains multiple prediction heads, representation-plus-error routing, Gumbel routing, and Sinkhorn OT supervision while leaving the backbone, labels, data panel, and training parameters configurable. See [method mapping](references/method_mapping.md).
+
+Public paper: [arXiv](https://arxiv.org/abs/2106.12950). Reference implementation directory: [Qlib TRA](https://github.com/microsoft/qlib/tree/main/examples/benchmarks/TRA).
+
 ## Capabilities
 
 - Loads CSV or Parquet multi-factor panels.
@@ -41,7 +51,7 @@ python -m pytest -q
 
 ## Input and output
 
-The input is one long-form CSV or Parquet panel with unique `(date, ticker)` rows. Declare numeric factor columns, the label column, chronological splits, and label-availability delay explicitly in YAML. See the [input contract](references/input_contract.md).
+The input is one long-form CSV or Parquet panel with unique `(date, ticker)` rows. Declare numeric factor columns, the label column, chronological splits, and label-availability delay explicitly in YAML. See the [input contract](references/input_contract.md) and the complete [configuration reference](references/configuration.en.md).
 
 A completed run writes a resolved configuration, input manifest, epoch metrics, selected checkpoint, validation summary, and optional signal export. Signal files always contain:
 
@@ -52,15 +62,14 @@ date,ticker,signal
 
 See the [output contract](references/output_contract.md) for the full artifact definition.
 
-## Method and paper reference
+## Validation
 
-This project is informed by:
-
-> Hengxu Lin, Dong Zhou, Weiqing Liu, Jiang Bian. **Learning Multiple Stock Trading Patterns with Temporal Routing Adaptor and Optimal Transport.** KDD 2021. DOI: [10.1145/3447548.3467358](https://doi.org/10.1145/3447548.3467358).
-
-This repository is an **unofficial independent reproduction and generic factor-panel adaptation**, not an implementation released by the paper authors or Microsoft Qlib. It retains multiple prediction heads, representation-plus-error routing, Gumbel routing, and Sinkhorn OT supervision while leaving the backbone, labels, data panel, and training parameters configurable. See [method mapping](references/method_mapping.md).
-
-Public paper: [arXiv](https://arxiv.org/abs/2106.12950). Reference implementation directory: [Qlib TRA](https://github.com/microsoft/qlib/tree/main/examples/benchmarks/TRA).
+| Check | Command | Expected result |
+|---|---|---|
+| Configuration and data | `python scripts/run_model.py check --config <config.yaml>` | Prints `status: valid` with panel dimensions and split availability. |
+| Synthetic smoke flow | `python scripts/run_smoke.py` | Generates synthetic data, validates configuration, and trains a small model. |
+| Unit tests | `python -m pytest -q` | All tests pass, including training, signals, error memory, Sinkhorn assignment, and run verification. |
+| Run artifacts | `python scripts/run_model.py verify --run-dir <run_id>` | Prints `status: verified` after required artifacts are present. |
 
 ## Research use
 

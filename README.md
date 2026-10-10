@@ -7,6 +7,16 @@
 
 `skill-factor-model-tra` 是一个独立、可安装的 TRA 多因子合成模型。它通过多预测头、因果历史误差记忆和最优传输路由，在用户提供的因子面板上生成股票横截面预测信号。
 
+## 方法与论文参考
+
+本项目参考以下论文的 TRA 路由思想：
+
+> Hengxu Lin, Dong Zhou, Weiqing Liu, Jiang Bian. **Learning Multiple Stock Trading Patterns with Temporal Routing Adaptor and Optimal Transport.** KDD 2021. DOI: [10.1145/3447548.3467358](https://doi.org/10.1145/3447548.3467358).
+
+这是一个**非官方独立复现与通用因子面板适配版本**。它保留多预测头、基于表示与历史误差的路由、Gumbel 路由与 Sinkhorn OT 监督；主干网络、标签定义、数据面板和训练参数由 YAML 配置。详细映射见 [方法映射说明](references/method_mapping.md)。
+
+论文公开版本：[arXiv](https://arxiv.org/abs/2106.12950)；Qlib 参考目录：[GitHub](https://github.com/microsoft/qlib/tree/main/examples/benchmarks/TRA)。
+
 ## 功能
 
 - 读取 CSV 或 Parquet 多因子面板；
@@ -75,7 +85,7 @@ training:
   seed: 42
 ```
 
-完整字段说明见 [输入契约](references/input_contract.md)。
+完整字段说明见 [输入说明](references/input_contract.md)，全部参数、默认值与适用范围见 [配置参数说明](references/configuration.md)。
 
 ## 输出
 
@@ -86,17 +96,16 @@ date,ticker,signal
 20250102,600000,0.1837
 ```
 
-完整产物定义见 [输出契约](references/output_contract.md)。
+完整产物定义见 [输出说明](references/output_contract.md)。
 
-## 方法与论文参考
+## 验证方式
 
-本项目参考以下论文的 TRA 路由思想：
-
-> Hengxu Lin, Dong Zhou, Weiqing Liu, Jiang Bian. **Learning Multiple Stock Trading Patterns with Temporal Routing Adaptor and Optimal Transport.** KDD 2021. DOI: [10.1145/3447548.3467358](https://doi.org/10.1145/3447548.3467358).
-
-这是一个**非官方独立复现与通用因子面板适配版本**，并非论文作者或 Microsoft Qlib 发布的官方实现。它保留多预测头、基于表示与历史误差的路由、Gumbel 路由与 Sinkhorn OT 监督；主干网络、标签定义、数据面板和训练参数由 YAML 配置，因此不以复现论文的具体数值结果为目标。详细映射见 [方法映射说明](references/method_mapping.md)。
-
-论文公开版本：[arXiv](https://arxiv.org/abs/2106.12950)；Qlib 参考目录：[GitHub](https://github.com/microsoft/qlib/tree/main/examples/benchmarks/TRA)。
+| 检查 | 命令 | 成功标准 |
+|---|---|---|
+| 配置与数据 | `python scripts/run_model.py check --config <config.yaml>` | 输出 `status: valid`，并展示面板维度与各时间段可用日期。 |
+| 合成数据流程 | `python scripts/run_smoke.py` | 完成合成数据生成、配置检查与训练。 |
+| 单元测试 | `python -m pytest -q` | 全部测试通过，涵盖训练、标准信号、误差记忆、Sinkhorn 分配与运行目录校验。 |
+| 运行产物 | `python scripts/run_model.py verify --run-dir <run_id>` | 输出 `status: verified`，所需配置、清单、checkpoint 与验证摘要均存在。 |
 
 ## 研究使用说明
 

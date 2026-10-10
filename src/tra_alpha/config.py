@@ -72,3 +72,5 @@ def validate_config(config: dict) -> None:
         raise ValueError("model.experts and model.history_length must be positive")
     if int(config["training"]["epochs"]) < 1 or int(config["training"]["label_availability_delay"]) < 1:
         raise ValueError("training.epochs and label_availability_delay must be positive")
+    if config["training"].get("selection_metric") != "mean_pearson":
+        raise ValueError("training.selection_metric must be mean_pearson")
